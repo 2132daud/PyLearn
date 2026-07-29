@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block title %}Редактировать пользователя{% endblock %}
+{% block content %}
+<h2>Пользователь: {{ user.username }} ({{ user.email }})</h2>
+<form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ macros.render_field(form.role) }}
+    {{ macros.render_field(form.is_active_account) }}
+    {{ form.submit(class="btn btn-primary") }}
+    <a href="{{ url_for('admin.users') }}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

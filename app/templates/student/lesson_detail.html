@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ lesson.title }}{% endblock %}
+{% block content %}
+<h2>{{ lesson.title }}</h2>
+<div class="card mb-3"><div class="card-body">
+    {{ lesson.content|markdown|safe }}
+</div></div>
+
+<h4>Задания</h4>
+<ul class="list-group">
+    {% for task in lesson.tasks %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{{ url_for('student.task_detail', task_id=task.id) }}">{{ task.title }}</a>
+        {% if task.id in solved_task_ids %}
+            <span class="badge bg-success">Выполнено</span>
+        {% else %}
+            <span class="badge bg-secondary">Не выполнено</span>
+        {% endif %}
+    </li>
+    {% else %}
+    <li class="list-group-item text-muted">Заданий пока нет.</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('student.course_detail', course_id=lesson.course_id) }}" class="btn btn-link mt-3">← К курсу</a>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Панель администратора{% endblock %}
+{% block content %}
+<h2 class="mb-4">Панель администратора</h2>
+<div class="row g-3">
+    <div class="col-md-3"><div class="card text-center p-3"><h3>{{ stats.total_users }}</h3><p class="mb-0">Всего пользователей</p></div></div>
+    <div class="col-md-3"><div class="card text-center p-3"><h3>{{ stats.total_students }}</h3><p class="mb-0">Учеников</p></div></div>
+    <div class="col-md-3"><div class="card text-center p-3"><h3>{{ stats.total_teachers }}</h3><p class="mb-0">Учителей</p></div></div>
+    <div class="col-md-3"><div class="card text-center p-3"><h3>{{ stats.total_courses }}</h3><p class="mb-0">Курсов</p></div></div>
+</div>
+<div class="mt-4">
+    <a href="{{ url_for('admin.users') }}" class="btn btn-outline-primary me-2">Управление пользователями</a>
+    <a href="{{ url_for('admin.create_teacher') }}" class="btn btn-outline-success me-2">Создать учителя</a>
+    <a href="{{ url_for('admin.courses') }}" class="btn btn-outline-secondary">Все курсы</a>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block title %}Создать учителя{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h2 class="mb-4">Создать учётную запись учителя</h2>
+        <form method="post" novalidate>
+            {{ form.hidden_tag() }}
+            {{ macros.render_field(form.username) }}
+            {{ macros.render_field(form.email) }}
+            {{ macros.render_field(form.password) }}
+            {{ form.submit(class="btn btn-primary w-100") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Ученики курса{% endblock %}
+{% block content %}
+<h2>Ученики курса «{{ course.title }}»</h2>
+<table class="table table-bordered bg-white align-middle">
+    <thead><tr><th>Ученик</th><th>Email</th><th>Прогресс</th></tr></thead>
+    <tbody>
+    {% for row in rows %}
+        <tr>
+            <td>{{ row.student.username }}</td>
+            <td>{{ row.student.email }}</td>
+            <td>
+                <div class="progress"><div class="progress-bar" style="width: {{ row.progress }}%">{{ row.progress }}%</div></div>
+                <small>{{ row.solved }} / {{ row.total }} {{ row.total|plural_ru("задание,задания,заданий") }}</small>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="3" class="text-muted">На курс пока никто не записан.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

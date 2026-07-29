@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Мой прогресс{% endblock %}
+{% block content %}
+<h2 class="mb-3">Мой прогресс</h2>
+<table class="table table-bordered bg-white align-middle">
+    <thead><tr><th>Курс</th><th>Прогресс</th></tr></thead>
+    <tbody>
+    {% for row in rows %}
+        <tr>
+            <td>{{ row.course.title }}</td>
+            <td>
+                <div class="progress"><div class="progress-bar" style="width: {{ row.progress }}%">{{ row.progress }}%</div></div>
+                <small>{{ row.solved }} / {{ row.total }} {{ row.total|plural_ru("задание,задания,заданий") }}</small>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="2" class="text-muted">Вы пока не записаны ни на один курс.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

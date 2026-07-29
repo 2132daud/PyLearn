@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2>{{ title }} — {{ lesson.title }}</h2>
+<form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ macros.render_field(form.title) }}
+    {{ macros.render_field(form.description) }}
+    {{ macros.render_field(form.type) }}
+    {{ macros.render_field(form.order_index) }}
+    {{ macros.render_field(form.max_score) }}
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

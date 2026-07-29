@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2>{{ title }}</h2>
+<form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ macros.render_field(form.title) }}
+    {{ macros.render_field(form.description) }}
+    {{ macros.render_field(form.is_published) }}
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

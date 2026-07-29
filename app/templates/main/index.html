@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}PyLearn — обучение Python{% endblock %}
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+    <h1 class="display-6">Добро пожаловать в PyLearn</h1>
+    <p class="lead">Учебная платформа для изучения языка Python: теория, тесты и практические задания
+        с автоматической проверкой кода.</p>
+    <a class="btn btn-primary btn-lg me-2" href="{{ url_for('auth.register') }}">Регистрация</a>
+    <a class="btn btn-outline-secondary btn-lg" href="{{ url_for('auth.login') }}">Войти</a>
+</div>
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card h-100"><div class="card-body">
+            <h5 class="card-title">Ученик</h5>
+            <p class="card-text">Изучайте уроки, проходите тесты и решайте задачи по программированию
+                с мгновенной автоматической проверкой.</p>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100"><div class="card-body">
+            <h5 class="card-title">Учитель</h5>
+            <p class="card-text">Создавайте курсы, уроки и задания (тесты и задачи по коду),
+                следите за прогрессом своих учеников.</p>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100"><div class="card-body">
+            <h5 class="card-title">Администратор</h5>
+            <p class="card-text">Управляйте пользователями, назначайте роли и модерируйте курсы платформы.</p>
+        </div></div>
+    </div>
+</div>
+{% endblock %}

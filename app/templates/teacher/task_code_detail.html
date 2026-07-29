@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block title %}{{ task.title }}{% endblock %}
+{% block content %}
+<h2>{{ task.title }} <span class="badge bg-warning text-dark">Код</span></h2>
+<p style="white-space: pre-wrap;">{{ task.description }}</p>
+<div class="mb-3">
+    <a href="{{ url_for('teacher.edit_task', task_id=task.id) }}" class="btn btn-outline-secondary btn-sm">Редактировать</a>
+    <a href="{{ url_for('teacher.task_submissions', task_id=task.id) }}" class="btn btn-outline-info btn-sm">Решения учеников</a>
+    <form action="{{ url_for('teacher.delete_task', task_id=task.id) }}" method="post" class="d-inline" onsubmit="return confirm('Удалить задание?');">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-outline-danger btn-sm">Удалить</button>
+    </form>
+</div>
+
+<h4>Тест-кейсы</h4>
+<table class="table table-bordered bg-white align-middle">
+    <thead><tr><th>stdin</th><th>Ожидаемый вывод</th><th>Пример</th><th></th></tr></thead>
+    <tbody>
+    {% for tc in task.test_cases %}
+        <tr>
+            <td><pre class="mb-0">{{ tc.stdin_data }}</pre></td>
+            <td><pre class="mb-0">{{ tc.expected_output }}</pre></td>
+            <td>{{ "Да" if tc.is_sample else "Нет" }}</td>
+            <td>
+                <form action="{{ url_for('teacher.delete_testcase', testcase_id=tc.id) }}" method="post" onsubmit="return confirm('Удалить тест-кейс?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="4" class="text-muted">Тест-кейсов пока нет.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mt-4">Добавить тест-кейс</h4>
+<form method="post" action="{{ url_for('teacher.add_testcase', task_id=task.id) }}" novalidate>
+    {{ form.hidden_tag() }}
+    {{ macros.render_field(form.stdin_data) }}
+    {{ macros.render_field(form.expected_output) }}
+    {{ macros.render_field(form.is_sample) }}
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+<a href="{{ url_for('teacher.lesson_detail', lesson_id=task.lesson_id) }}" class="btn btn-link mt-3">← К уроку</a>
+{% endblock %}

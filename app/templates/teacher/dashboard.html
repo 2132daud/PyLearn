@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Мои курсы{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Мои курсы</h2>
+    <a href="{{ url_for('teacher.new_course') }}" class="btn btn-success">+ Новый курс</a>
+</div>
+{% if courses %}
+<div class="row g-3">
+    {% for course in courses %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ course.title }}</h5>
+                <p class="card-text">{{ course.description[:120] }}{% if course.description|length > 120 %}...{% endif %}</p>
+                <p><span class="badge bg-{{ 'success' if course.is_published else 'secondary' }}">
+                    {{ 'Опубликован' if course.is_published else 'Черновик' }}</span></p>
+                <a href="{{ url_for('teacher.course_detail', course_id=course.id) }}" class="btn btn-primary btn-sm">Открыть</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>У вас пока нет курсов. <a href="{{ url_for('teacher.new_course') }}">Создайте первый курс</a>.</p>
+{% endif %}
+{% endblock %}

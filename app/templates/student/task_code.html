@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ task.title }}{% endblock %}
+{% block content %}
+<h2>{{ task.title }}</h2>
+<p style="white-space: pre-wrap;">{{ task.description }}</p>
+
+{% if sample_cases %}
+<h5>Примеры</h5>
+<table class="table table-bordered bg-white align-middle">
+    <thead><tr><th>Вход (stdin)</th><th>Ожидаемый вывод</th></tr></thead>
+    <tbody>
+    {% for tc in sample_cases %}
+        <tr><td><pre class="mb-0">{{ tc.stdin_data }}</pre></td><td><pre class="mb-0">{{ tc.expected_output }}</pre></td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if last_submission %}
+<div class="alert alert-{{ 'success' if last_submission.is_correct else 'warning' }}">
+    Последняя попытка: {{ 'принята' if last_submission.is_correct else 'не пройдена' }}
+    ({{ last_submission.submitted_at.strftime('%d.%m.%Y %H:%M') }}), баллы: {{ last_submission.score }} / {{ task.max_score }}
+</div>
+<h5>Результаты последней попытки</h5>
+<table class="table table-bordered bg-white align-middle">
+    <thead><tr><th>Вход</th><th>Ожидалось</th><th>Получено</th><th>Статус</th></tr></thead>
+    <tbody>
+    {% for detail in last_submission.feedback|fromjson %}
+        {% if detail.is_sample or detail.passed %}
+        <tr class="{{ 'table-success' if detail.passed else 'table-danger' }}">
+            <td><pre class="mb-0">{{ detail.input }}</pre></td>
+            <td><pre class="mb-0">{{ detail.expected }}</pre></td>
+            <td><pre class="mb-0">{{ detail.actual }}{% if detail.stderr %}
+{{ detail.stderr }}{% endif %}</pre></td>
+            <td>{{ "OK" if detail.passed else "Ошибка" }}</td>
+        </tr>
+        {% else %}
+        <tr class="table-secondary">
+            <td colspan="4" class="text-muted">Скрытый тест-кейс: не пройден.</td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<h5>Ваше решение</h5>
+<form method="post" action="{{ url_for('student.submit_code', task_id=task.id) }}">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.code_text(class="form-control", rows=14, style="font-family: monospace;") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+<a href="{{ url_for('student.lesson_detail', lesson_id=task.lesson_id) }}" class="btn btn-link mt-3">← К уроку</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Ответы учеников{% endblock %}
+{% block content %}
+<h2>Ответы учеников — {{ task.title }}</h2>
+<table class="table table-bordered bg-white align-middle">
+    <thead><tr><th>Ученик</th><th>Дата</th><th>Результат</th><th>Балл</th><th></th></tr></thead>
+    <tbody>
+    {% for submission in submissions %}
+        <tr>
+            <td>{{ submission.student.username }}</td>
+            <td>{{ submission.submitted_at.strftime('%d.%m.%Y %H:%M') }}</td>
+            <td><span class="badge bg-{{ 'success' if submission.is_correct else 'danger' }}">
+                {{ 'Верно' if submission.is_correct else 'Неверно' }}</span></td>
+            <td>{{ submission.score }} / {{ task.max_score }}</td>
+            <td><a href="{{ url_for('teacher.submission_detail', submission_id=submission.id) }}" class="btn btn-sm btn-outline-primary">Подробнее</a></td>
+        </tr>
+    {% else %}
+        <tr><td colspan="5" class="text-muted">Пока нет отправленных решений.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('teacher.task_detail', task_id=task.id) }}" class="btn btn-link">← К заданию</a>
+{% endblock %}
