@@ -50,7 +50,7 @@ python_edu_platform/
 
 ```powershell
 git clone <URL_репозитория>
-cd python_edu_platform
+cd PyLearn
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
